@@ -18,15 +18,25 @@ import com.example.timer.util.PrefUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
+/**
+ * Main class of the application from here the timer from background and foreground is controlled
+ *@author: merles
+ */
 class MainActivity : AppCompatActivity() {
 
     enum class TimerState{
+        /**
+         * This enumeration is used in all the process to control the state of the timer
+         */
         Stopped, Paused, Running
 
     }
     companion object {
         @RequiresApi(Build.VERSION_CODES.KITKAT)
         fun setAlarm(context: Context, nowSeconds : Long, secondsRemaining : Long) : Long {
+            /**
+             * This function creates an alarm to notify when the timer expires
+             */
             val wakeUpTime = (nowSeconds + secondsRemaining) * 1000
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(context,TimerExpiredReceiver::class.java)
@@ -86,8 +96,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+        /**
+         * Actions performed when it is recovered from the notification bar or app switcher menu
+         * the timer is initiated again, the alarm is removed and the notification hidden.
+         */
         super.onResume()
-
         initTimer()
         NotificationUtil.hideTimerNotification(this)
         removeAlarm(this)
@@ -96,6 +109,9 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onPause() {
+        /**
+         * onPause is called when the app is minimized or is switched from the app switcher menu
+         */
         super.onPause()
         if( timerState == TimerState.Running){
             timer.cancel()
