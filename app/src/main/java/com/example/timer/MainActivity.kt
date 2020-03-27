@@ -23,20 +23,25 @@ import java.util.*
  *@author: merles
  */
 class MainActivity : AppCompatActivity() {
-
+    /**
+     * This enumeration is used in all the process to control the state of the timer
+     */
     enum class TimerState{
-        /**
-         * This enumeration is used in all the process to control the state of the timer
-         */
         Stopped, Paused, Running
 
     }
     companion object {
         @RequiresApi(Build.VERSION_CODES.KITKAT)
+                /**
+                 * Sets an alarm when the app is minimized or switched from app switcher
+                 *
+                 * @param context
+                 * @param nowSeconds current time in milliseconds
+                 * @param secondsRemaining seconds remaining until the end expiration time of the
+                 * timer in milliseconds
+                 * @return
+                 */
         fun setAlarm(context: Context, nowSeconds : Long, secondsRemaining : Long) : Long {
-            /**
-             * This function creates an alarm to notify when the timer expires
-             */
             val wakeUpTime = (nowSeconds + secondsRemaining) * 1000
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(context,TimerExpiredReceiver::class.java)
@@ -46,6 +51,11 @@ class MainActivity : AppCompatActivity() {
             return wakeUpTime
         }
 
+        /**
+         * Removes the alarm when the app is resumed and the timer is shown in the app
+         *
+         * @param context
+         */
         fun removeAlarm(context: Context){
             val intent = Intent(context,TimerExpiredReceiver::class.java)
             val pendingIntent = PendingIntent.getBroadcast(context,0,intent,0)
