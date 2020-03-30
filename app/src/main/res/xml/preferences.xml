@@ -7,8 +7,8 @@
         android:summary="How many minutes should the timer run  "
         android:defaultValue="25"
 
-        app:msbp_minValue="1"
-        app:msbp_maxValue="60"
+        app:msbp_minValue="5"
+        app:msbp_maxValue="25"
         app:msbp_interval="1"
         app:msbp_measurementUnit="minutes"
         app:msbp_dialogEnabled="true"/>
